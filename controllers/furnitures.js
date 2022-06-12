@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { create, getAll } = require('../services/furniture');
+const { create, getAll, getOneById } = require('../services/furniture');
 const mapErrors = require('../utils/mapper');
 
 
@@ -28,8 +28,8 @@ router.post('/', async (req, res) => {
     res.end();
 });
 router.get('/:id', async (req, res) => {
-    console.log(req.body)
-    res.end();
+    const furiture = await getOneById(req.params.id);
+    res.json(furiture);
 });
 router.put('/:id', async (req, res) => {
     console.log(req.body)

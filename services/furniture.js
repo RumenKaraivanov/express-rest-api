@@ -8,8 +8,11 @@ async function create(data) {
 async function getAll() {
     return await Furniture.find({});
 };
-
+async function getOneById(id) {
+    return await Furniture.findById(id);
+};
 module.exports = {
     create,
-    getAll
+    getAll,
+    getOneById
 }
