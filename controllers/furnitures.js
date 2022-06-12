@@ -50,8 +50,13 @@ router.put('/:id', async (req, res) => {
     }
 });
 router.delete('/:id', async (req, res) => {
-    await deleteById(req.params.id);
-    res.status(204).end();
+    try {
+        await deleteById(req.params.id);
+        res.status(204).end();
+    } catch (err) {
+        const error = mapErrors(err);
+        res.status(400).json({ message: error });
+    };
 });
 
 
