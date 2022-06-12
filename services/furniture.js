@@ -24,10 +24,14 @@ async function update(id, item) {
 
     await existing.save();
     return existing;
-}
+};
+async function deleteById(id) {
+    await Furniture.findByIdAndDelete(id);
+};
 module.exports = {
     create,
     getAll,
     getOneById,
-    update
+    update,
+    deleteById
 };

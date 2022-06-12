@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { create, getAll, getOneById, update } = require('../services/furniture');
+const { create, getAll, getOneById, update, deleteById } = require('../services/furniture');
 const mapErrors = require('../utils/mapper');
 
 
@@ -50,8 +50,8 @@ router.put('/:id', async (req, res) => {
     }
 });
 router.delete('/:id', async (req, res) => {
-    console.log(req.body)
-    res.end();
+    await deleteById(req.params.id);
+    res.status(204).end();
 });
 
 
