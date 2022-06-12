@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const JWT_SECRET = 's1231fasasdae23fdaasad22e';
+const blacklist = [];
 
 async function register(email, password) {
     const existing = await User.findOne({ email: new RegExp(`^${email}$`, 'i') });
@@ -19,7 +20,22 @@ async function register(email, password) {
     return createSession(user);
 };
 async function login(email, password) {
+    const user = await User.findOne({ email: new RegExp(`^${email}$`, 'i') });
 
+    if (!user) {
+        throw new Error('Incorrect email or password.');
+    };
+
+    const match = bcrypt.compare(password, user.hashedPassword);
+
+    if (!match) {
+        throw new Error('Incorrect email or password.');
+    };
+    return createSession(user);
+};
+
+function logout(token) {
+    blacklist.push(token);
 };
 
 function createSession(user) {
@@ -36,5 +52,6 @@ function createSession(user) {
 
 module.exports = {
     register,
-    login
+    login,
+    logout
 };
