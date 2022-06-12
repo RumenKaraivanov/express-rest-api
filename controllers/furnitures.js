@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { create, getAll, getOneById } = require('../services/furniture');
+const { create, getAll, getOneById, update } = require('../services/furniture');
 const mapErrors = require('../utils/mapper');
 
 
@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
         price: req.body.price,
         img: req.body.img,
         material: req.body.material
-    }
+    };
 
     try {
         const result = await create(furiture);
@@ -32,8 +32,22 @@ router.get('/:id', async (req, res) => {
     res.json(furiture);
 });
 router.put('/:id', async (req, res) => {
-    console.log(req.body)
-    res.end();
+    const furiture = {
+        make: req.body.make,
+        model: req.body.model,
+        year: req.body.year,
+        description: req.body.description,
+        price: req.body.price,
+        img: req.body.img,
+        material: req.body.material
+    }
+    try {
+        const result = await update(req.params.id, furiture);
+        res.json(result);
+    } catch (err) {
+        const error = mapErrors(err);
+        res.status(400).json({ message: error });
+    }
 });
 router.delete('/:id', async (req, res) => {
     console.log(req.body)
