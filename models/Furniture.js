@@ -11,7 +11,8 @@ const schema = new Schema({
     description: { type: String, required: true },
     price: { type: Number, required: true },
     img: { type: String, required: true },
-    material: { type: String }
+    material: { type: String },
+    _ownerId: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
 module.exports = model('Furniture', schema);
