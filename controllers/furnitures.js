@@ -61,5 +61,4 @@ router.delete('/:id', preload(), isOwner(), async (req, res) => {
     };
 });
 
-
 module.exports = router;

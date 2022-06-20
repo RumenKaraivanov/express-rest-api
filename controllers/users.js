@@ -9,10 +9,8 @@ router.post('/register', isGuest(), async (req, res) => {
         if (req.body.email.trim() == '' || req.body.password.trim() == '') {
             throw new Error('All fields are required!');
         };
-
         const email = req.body.email.trim().toLowerCase();
         const password = req.body.email.trim();
-
         const result = await register(email, password);
         res.status(201).json(result);
     } catch (err) {
@@ -24,7 +22,6 @@ router.post('/login', isGuest(), async (req, res) => {
     try {
         const email = req.body.email.trim().toLowerCase();
         const password = req.body.email.trim();
-
         const result = await login(email, password);
         res.json(result);
     } catch (err) {
