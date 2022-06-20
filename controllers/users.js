@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const mapErrors = require('../utils/mapper');
-const { register, login } = require('../services/user');
+const { register, login, logout } = require('../services/user');
 
 router.post('/register', async (req, res) => {
 
@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
     };
 });
 router.get('/logout', async (req, res) => {
-    console.log('logout')
+    logout(req.user.token);
     res.end();
 });
 
