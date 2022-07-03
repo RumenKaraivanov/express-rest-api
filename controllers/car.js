@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { create, getAll, getOneById, update, deleteById } = require('../services/furniture');
+const { create, getAll, update, deleteById } = require('../services/car');
 const mapErrors = require('../utils/mapper');
 const { isUser, isOwner } = require('../middlewares/guards');
 const preload = require('../middlewares/preload');
@@ -9,19 +9,16 @@ router.get('/', async (req, res) => {
     res.json(data);
 });
 router.post('/', isUser(), async (req, res) => {
-    const furiture = {
-        make: req.body.make,
+    const car = {
         model: req.body.model,
-        year: req.body.year,
         description: req.body.description,
         price: req.body.price,
-        img: req.body.img,
-        material: req.body.material,
+        imageUrl: req.body.imageUrl,
         _ownerId: req.user._id
     };
 
     try {
-        const result = await create(furiture);
+        const result = await create(car);
         res.status(201).json(result);
     } catch (err) {
         const error = mapErrors(err);
@@ -30,21 +27,18 @@ router.post('/', isUser(), async (req, res) => {
     res.end();
 });
 router.get('/:id', preload(), async (req, res) => {
-    const furiture = await res.locals.item;
-    res.json(furiture);
+    const car = await res.locals.item;
+    res.json(car);
 });
 router.put('/:id', preload(), isOwner(), async (req, res) => {
-    const furiture = {
-        make: req.body.make,
+    const car = {
         model: req.body.model,
-        year: req.body.year,
         description: req.body.description,
         price: req.body.price,
-        img: req.body.img,
-        material: req.body.material
+        imageUrl: req.body.imageUrl
     }
     try {
-        const result = await update(req.params.id, furiture);
+        const result = await update(req.params.id, car);
         res.json(result);
     } catch (err) {
         const error = mapErrors(err);
