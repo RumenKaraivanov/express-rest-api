@@ -5,6 +5,7 @@ const { isUser, isOwner } = require('../middlewares/guards');
 const preload = require('../middlewares/preload');
 
 router.get('/', async (req, res) => {
+    console.log(req.user);
     const data = await getAll();
     res.json(data);
 });
