@@ -22,7 +22,6 @@ router.post('/login', isGuest(), async (req, res) => {
     try {
         const email = req.body.email?.trim().toLowerCase();
         const password = req.body.password?.trim();
-        console.log(email, password)
         const result = await login(email, password, res);
         res.json(result);
     } catch (err) {
