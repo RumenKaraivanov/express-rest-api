@@ -30,6 +30,7 @@ router.post('/login', isGuest(), async (req, res) => {
     };
 });
 router.get('/logout', isUser(), async (req, res) => {
+    res.clearCookie('jwt');
     logout(req.user.token);
     res.end();
 });

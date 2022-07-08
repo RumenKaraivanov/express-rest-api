@@ -15,8 +15,7 @@ async function register(email, password, res) {
         hashedPassword: await bcrypt.hash(password, 10)
     });
     await user.save();
-    createRefreshToken(res, user);
-    return createSession(user);
+    return createSession(user, res);
 };
 async function login(email, password, res) {
     const user = await User.findOne({ email: new RegExp(`^${email}$`, 'i') });
@@ -41,7 +40,7 @@ function createSession(user, res) {
 
     // Assigning refresh token in http-only cookie 
     res.cookie('jwt', refreshToken, {
-        httpOnly: true, sameSite: 'none',secure: true,
+        httpOnly: true, sameSite: 'none', secure: true,
         maxAge: 24 * 60 * 60 * 1000
     });
     return {
@@ -53,19 +52,6 @@ function createSession(user, res) {
         }, ACCESS_TOKEN_SECRET)
     };
 };
-// function createRefreshToken(res, user) {
-//     const refreshToken = jwt.sign({
-//         email: user.email,
-//         _id: user._id
-//     }, REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
-
-//     // Assigning refresh token in http-only cookie 
-//     res.cookie('jwt', refreshToken, {
-//         httpOnly: true,
-//         sameSite: 'None',
-//         maxAge: 24 * 60 * 60 * 1000
-//     });
-// }
 function verifySession(token) {
     if (blacklist.includes(token)) {
         throw new Error('Token is invalidated.')
