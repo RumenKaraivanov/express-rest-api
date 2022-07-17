@@ -31,8 +31,8 @@ router.post('/login', isGuest(), async (req, res) => {
 });
 router.get('/logout', isUser(), (req, res) => {
     logout(req.user.token);
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true });
-    res.end();
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+    res.status(204).end();
 });
 
 module.exports = router;
