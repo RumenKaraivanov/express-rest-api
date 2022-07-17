@@ -29,9 +29,9 @@ router.post('/login', isGuest(), async (req, res) => {
         res.status(400).json({ message: error });
     };
 });
-router.get('/logout', isUser(), async (req, res) => {
-    res.clearCookie('jwt');
+router.get('/logout', isUser(), (req, res) => {
     logout(req.user.token);
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true });
     res.end();
 });
 
