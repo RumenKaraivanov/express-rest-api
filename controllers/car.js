@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     const data = await getAll();
     res.json(data);
 });
-router.post('/likes/:id', async (req, res) => {
+router.post('/likes/:id', isUser(), async (req, res) => {
     const data = await likeCar(req.params.id, req.user._id);
     res.json(data);
 });
