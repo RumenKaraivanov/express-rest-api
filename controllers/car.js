@@ -1,11 +1,15 @@
 const router = require('express').Router();
-const { create, getAll, update, deleteById } = require('../services/car');
+const { create, getAll, update, deleteById, likeCar } = require('../services/car');
 const mapErrors = require('../utils/mapper');
 const { isUser, isOwner } = require('../middlewares/guards');
 const preload = require('../middlewares/preload');
 
 router.get('/', async (req, res) => {
     const data = await getAll();
+    res.json(data);
+});
+router.post('/likes/:id', async (req, res) => {
+    const data = await likeCar(req.params.id, req.user._id);
     res.json(data);
 });
 router.post('/', isUser(), async (req, res) => {

@@ -5,6 +5,7 @@ const schema = new Schema({
     model: { type: String, required: [true, 'Model is required!'] },
     description: { type: String, required: [true, 'Description is required!'] },
     price: { type: Number, required: [true, 'Price is required!'] },
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     imageUrl: {
         type: String, required: true, validate: {
             validator(value) {

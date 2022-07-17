@@ -25,10 +25,17 @@ async function update(id, item) {
 async function deleteById(id) {
     await Car.findByIdAndDelete(id);
 };
+async function likeCar(id, userId) {
+    const car = await Car.findById(id);
+    car.likes.push(userId);
+    await car.save();
+    return car
+}
 module.exports = {
     create,
     getAll,
     getOneById,
     update,
-    deleteById
+    deleteById,
+    likeCar
 };
