@@ -6,7 +6,19 @@ const preload = require('../middlewares/preload');
 
 router.get('/', async (req, res) => {
     const data = await getAll();
-    res.json(data);
+    if (req.query.ownerId) {
+        const filtered = [];
+        data.forEach(car => {
+            car.likes.forEach(id => {
+                if (id.toString() === req.query.ownerId) {
+                    filtered.push(car);
+                };
+            });
+        });
+        res.json(filtered);
+    } else {
+        res.json(data);
+    };
 });
 router.post('/likes/:id', isUser(), async (req, res) => {
     const data = await likeCar(req.params.id, req.user._id);
